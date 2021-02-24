@@ -1,0 +1,7 @@
+pandas
+scikit-learn
+numpy
+scipy
+imbalanced-learn
+jupyterlab
+notebook
