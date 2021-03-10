@@ -1,18 +1,35 @@
 
 # JITLine-replication-package
 
+  
+
 This repository contains source code that we used to perform experiment in "JITLine: A Simpler, Better, Faster, Finer-grained Just-In-Time Defect Prediction" paper.
 
-The source code implementation for our approach is in [JITLine](https://github.com/awsm-research/JITLine-replication-package/tree/master/JITLine  "JITLine") directory.
   
+
+The source code implementation for our approach is in [JITLine](https://github.com/awsm-research/JITLine-replication-package/tree/master/JITLine  "JITLine") directory.
+
+  
+
 Please follow the steps below to reproduce the result
 
-1. go to "./JITLine/" directory
+## Conda Environment Preparation
 
-2. run the command "conda env create --file requirements.yml" to create conda virtual environment
+Run the following command in terminal (or command line) to prepare virtual environment
 
-3. enter "conda activate JITLine" to activate conda environment
+    git clone https://github.com/awsm-research/JITLine-replication-package.git
+    cd ./JITLine-replication-package/JITLine/
+    conda env create --file requirements.yml
+    conda activate JITLine
 
-4. run the command "jupyter lab" to start jupyter notebook server
+## Experiment Result Replication Guide
 
-5. open and run "JITLine_RQ1-RQ3.ipynb" and "JITLine_RQ4.ipynb", to get result of RQ1-RQ3 and RQ4 respectively.
+### Guideline to reproduce result of RQ1-RQ3
+
+Open and run all cells in "JITLine_RQ1-RQ3.ipynb"  
+
+### Guideline to reproduce result of RQ4
+
+Note: To reproduce the result of this RQ, "JITLine_RQ1-RQ3.ipynb" must be run first
+
+Open and run all cells in "JITLine_RQ4.ipynb" 
