@@ -1,20 +1,15 @@
-import re, pickle, time, math
 import numpy as np
 import pandas as pd
-<<<<<<< HEAD
-import time, math
-=======
+import time, math, os, re, pickle
 from sklearn.metrics import confusion_matrix, roc_auc_score, matthews_corrcoef, precision_recall_fscore_support, classification_report
->>>>>>> parent of 857efd2... prepare files for RQ1-RQ3
-
 
 # data_dir = './data/'
-# data_path = './data/'
 
-python_common_tokens = ['abs','delattr','hash','memoryview','set','all','dict','help','min','setattr','any','dir','hex','next','slice','ascii','divmod','id','object','sorted','bin','enumerate','input','oct','staticmethod','bool','eval','int','open','str','breakpoint','exec','isinstance','ord','sum','bytearray','filter','issubclass','pow','super','bytes','float','iter','print','tuple','callable','format','len','property','type','chr','frozenset','list','range','vars','classmethod','getattr','locals','repr','zip','compile','globals','map','reversed','__import__','complex','hasattr','max','round','False','await','else','import','passNone','break','except','in','raise','True','class','finally','is','return','and','continue','for','lambda','try','as','def','from','nonlocal','while','assert','del','global','not','with','async','elif','if','or','yield']
+
+python_common_tokens = ['abs','delattr','hash','memoryview','set','all','dict','help','min','setattr','any','dir','hex','next','slice','ascii','divmod','id','object','sorted','bin','enumerate','input','oct','staticmethod','bool','eval','int','open','str','breakpoint','exec','isinstance','ord','sum','bytearray','filter','issubclass','pow','super','bytes','float','iter','print','tuple','callable','format','len','property','type','chr','frozenset','list','range','vars','classmethod','getattr','locals','repr','zip','compile','globals','map','reversed','__import__','complex','hasattr','max','round','False','await','else','import','passNone','break','except','in','raise','True','class','finally','is','return','and','continue','for','lambda','try','as','def','from','nonlocal','while','assert','del','global','not','with','async','elif','if','or','yield', 'self']
 
 def preprocess_code_line(code, remove_python_common_tokens=False):
-    code = code.replace('(','').replace(')','').replace('{','').replace('}','').replace('.','').replace(':','').replace(';','').replace(',','').replace(' _ ', '_')
+    code = code.replace('(',' ').replace(')',' ').replace('{',' ').replace('}',' ').replace('[',' ').replace(']',' ').replace('.',' ').replace(':',' ').replace(';',' ').replace(',',' ').replace(' _ ', '_')
     code = re.sub('``.*``','<STR>',code)
     code = re.sub("'.*'",'<STR>',code)
     code = re.sub('".*"','<STR>',code)
@@ -30,9 +25,9 @@ def preprocess_code_line(code, remove_python_common_tokens=False):
         return new_code.strip()
     
     else:
-        return code
+        return code.strip()
 
-def load_data(proj, mode='train',use_text=True,remove_python_common_tokens=False,data_dir='./dataset/'):
+def load_data(proj, mode='train',use_text=True,remove_python_common_tokens=False,data_dir='./data/'):
     if mode == 'train':
         data = pickle.load(open(data_dir+proj+'_train.pkl','rb'))
     elif mode == 'test':
@@ -91,8 +86,9 @@ def load_data(proj, mode='train',use_text=True,remove_python_common_tokens=False
     else:
         return commit_id,label
     
-def load_change_metrics_df(cur_proj,data_dir='./dataset/'):
-    change_metrics = pd.read_csv(data_dir+cur_proj+'_metrics.csv')
+def load_change_metrics_df(cur_proj):
+    data_path = './data/'
+    change_metrics = pd.read_csv(data_path+cur_proj+'_metrics.csv')
     change_metrics = change_metrics.drop(['author_date','bugcount','fixcount','revd','tcmt','oexp','orexp','osexp','osawr']
                                          ,axis=1)
     change_metrics = change_metrics.fillna(value=0)
@@ -129,6 +125,22 @@ def combine_features(combined_code, change_metrics, count_vect, commit_id, label
             features_df[metrics] = features_df[metrics].astype(np.float32)
         
         del tmp_features_df, tmp_df, code_change, code_change_arr
+#         del tmp_df
+#         del code_change
+#         del code_change_arr
+        
+#         code_change_arr = count_vect.transform(combined_code)
+#         code_change_arr = code_change_arr.astype(np.int16).toarray()
+#         code_change_df = pd.DataFrame(code_change_arr, columns=count_vect.get_feature_names())
+#         code_change_df['commit_hash'] = commit_id
+#         code_change_df['label'] = label
+#         features_df = code_change_df.merge(change_metrics,left_on='commit_hash',right_on='commit_id')
+        
+#         new_label = features_df['label']
+#         new_commit_id = features_df['commit_hash']
+        
+#         features_df = features_df.drop(['commit_id','commit_hash','label'],axis=1)
+
         return features_df, new_commit_id, new_label
     
     if use_text_feature and not use_change_metrics:
@@ -149,7 +161,7 @@ def combine_features(combined_code, change_metrics, count_vect, commit_id, label
 #         features_df = features_df.drop(['commit_id'],axis=1)
         return features_df, new_label
     
-def prepare_data(cur_proj,mode='train',use_text=True,remove_python_common_tokens=False,data_dir = './dataset/'):
+def prepare_data(cur_proj,mode='train',use_text=True,remove_python_common_tokens=False,data_dir = './data/'):
     
     if use_text:
         all_added_code, all_removed_code, commit_id, dict, label = load_data(cur_proj,mode=mode, use_text=use_text,
@@ -171,38 +183,15 @@ def train_eval_model(clf,x_train,y_train,x_test,y_test):
     
     prob = clf.predict_proba(x_test)[:,1]
     
-    #pred = np.round(prob,0)
     pred = clf.predict(x_test)
     
-#     print(classification_report(y_test,pred))
     pred_df = pd.DataFrame()
     pred_df['prob'] = prob
     pred_df['pred'] = pred
     pred_df['actual'] = y_test
-
-<<<<<<< HEAD
+    
     return clf, pred_df
-=======
-    balanced_acc = ((tp / (tp + fn)) + (tn / (tn + fp))) / 2.0
-#     fpr = fp / (fp + tn) if fp + tn > 0 else 0
-    
-    FAR = fp/(fp+tn) # false alarm rate or false positive rate
-    dist_heaven = math.sqrt((pow(1-rec,2)+pow(0-FAR,2))/2.0) # distance to heaven
-    
-    auc = roc_auc_score(y_test, prob)
-    mcc = matthews_corrcoef(y_test, pred)
 
-#     pr, rec, f1, _ = precision_recall_fscore_support(y_test, pred,average='binary')
-    
-#     metrics = 'Precision, Recall, F1, AUC, MCC, Bal_ACC, FAR, distance to heaven, time spent\n{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{}'.format(pr,rec,f1,auc,mcc,balanced_acc,FAR,dist_heaven,str(time.time()-start))
-    metrics = '{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\t{}'.format(prec,rec,f1,auc,mcc,balanced_acc,FAR,dist_heaven,str(time.time()-start))
-
-    #     print('Precision, Recall, F1, AUC, MCC, Bal_ACC,FPR,time spent')
-#     print('{:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}, {:.3f}'.format(pr,rec,f1,auc,mcc,balanced_acc,FAR),time.time()-start)
-#     print('time spent:',time.time()-start,' secs')
-#     print('-'*100)
-#     print('AUC:',auc)
-#     print('Precision:',pr,', Recall:',rec,', F1:',f1)
-    
-    return clf, metrics, pred_df
->>>>>>> parent of 857efd2... prepare files for RQ1-RQ3
+def create_path_if_not_exist(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
