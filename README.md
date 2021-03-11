@@ -5,11 +5,6 @@
 
 This repository contains source code that we used to perform experiment in "JITLine: A Simpler, Better, Faster, Finer-grained Just-In-Time Defect Prediction" paper.
 
-  
-
-The source code implementation for our approach is in [JITLine](https://github.com/awsm-research/JITLine-replication-package/tree/master/JITLine  "JITLine") directory.
-
-  
 
 Please follow the steps below to reproduce the result
 
