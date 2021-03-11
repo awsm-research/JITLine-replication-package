@@ -15,8 +15,8 @@ dependencies:
   - blas=1.0=openblas
   - bleach=3.3.0=pyh44b312d_0
   - brotlipy=0.7.0=py39h38d8fee_1001
-  - ca-certificates=2021.1.19=h06a4308_1
-  - certifi=2020.12.5=py39h06a4308_0
+  - ca-certificates=2020.12.5=ha878542_0
+  - certifi=2020.12.5=py39hf3d152e_1
   - cffi=1.14.5=py39h261ae71_0
   - chardet=4.0.0=py39hf3d152e_1
   - cryptography=3.3.1=py39h3c74f83_1
@@ -66,6 +66,7 @@ dependencies:
   - libuuid=1.0.3=h1bed415_2
   - libxcb=1.14=h7b6447c_0
   - libxml2=2.9.10=hb55368b_3
+  - lime=0.2.0.1=pyh9f0ad1d_0
   - lz4-c=1.9.3=h2531618_0
   - markupsafe=1.1.1=py39h38d8fee_2
   - matplotlib=3.3.4=py39h06a4308_0
