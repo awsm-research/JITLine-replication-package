@@ -135,6 +135,7 @@ dependencies:
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.5=h9ceee32_0
   - pip:
+    - dill==0.3.3
     - gitdb==4.0.5
     - gitpython==3.1.14
     - imbalanced-learn==0.8.0
