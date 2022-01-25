@@ -19,6 +19,10 @@ Run the following command in terminal (or command line) to prepare virtual envir
 
 ## Experiment Result Replication Guide
 
+### Additional dataset files
+
+Download files from this google drive https://drive.google.com/file/d/1LY_gd3NIXyH6IQT2UmSsfWPCT7cBMxdL/view?usp=sharing, then extract files to ./JITLine/data/ directory
+
 ### Guideline to reproduce result of RQ1-RQ3
 
 Open and run all cells in "JITLine_RQ1-RQ3.ipynb"  
