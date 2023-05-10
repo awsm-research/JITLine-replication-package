@@ -21,7 +21,7 @@ Run the following command in terminal (or command line) to prepare virtual envir
 
 ### Additional dataset files
 
-Download files from Zenodo [https://drive.google.com/file/d/1LY_gd3NIXyH6IQT2UmSsfWPCT7cBMxdL/view?usp=sharing](https://zenodo.org/record/4596503#.ZFr1PexBxJE). (the dataset is stored in ./JITLine/data/). Then, put the dataset in ./JITLine/data/ of the cloned repository.
+Download files from [Zenodo](https://zenodo.org/record/4596503#.ZFr1PexBxJE). (the dataset is stored in ./JITLine/data/). Then, put the dataset in ./JITLine/data/ of the cloned repository.
 
 ### Guideline to reproduce result of RQ1-RQ3
 
